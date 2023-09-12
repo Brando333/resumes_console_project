@@ -1,16 +1,15 @@
 package org.brando.model;
 
-class UserSigIn extends User {
+public class UserSigIn extends User {
     private String passwordReconfirmation;
 
-
-    public UserSigIn(int id, String address, String password, String fullName, String passwordReconfirmation) {
-        super(id, address, password, fullName);
+    public UserSigIn(int id, String address, String rawPassword, String fullName, String passwordKey, String passwordReconfirmation) {
+        super(id, address, rawPassword, fullName, passwordKey);
         this.passwordReconfirmation = passwordReconfirmation;
     }
 
-    public UserSigIn(String address, String password, String fullName, String passwordReconfirmation) {
-        super(address, password, fullName);
+    public UserSigIn(String address, String rawPassword, String fullName, String passwordKey, String passwordReconfirmation) {
+        super(address, rawPassword, fullName, passwordKey);
         this.passwordReconfirmation = passwordReconfirmation;
     }
 

@@ -1,20 +1,20 @@
 package org.brando.model;
 
 public class Login {
-    private String address;
+    private String emailAddress;
     private String password;
 
     public Login(String address, String password) {
-        this.address = address;
+        this.emailAddress = address;
         this.password = password;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {
@@ -28,7 +28,7 @@ public class Login {
     @Override
     public String toString() {
         return "Login{" +
-                "address='" + address + '\'' +
+                "address='" + emailAddress + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

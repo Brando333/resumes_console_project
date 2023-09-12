@@ -2,6 +2,7 @@ package org.brando.controller;
 
 import org.brando.data.DBConnection;
 import org.brando.model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 
 public class UserController {
 
-    private final String CREATE_QUERY = "INSERT INTO user (fullName, emailAddress, password) VALUES (?, ?, ?)";
+    private final String CREATE_QUERY = "INSERT INTO user (fullName, emailAddress, password, keyHash) VALUES (?, ?, ?, ?)";
     private final String SELECT_USER_QUERY = "SELECT * FROM user WHERE  id = ?";
     private final String UPDATE_FULL_NAME_QUERY = "UPDATE user SET fullName = ? WHERE id = ?";
     private final String UPDATE_EMAIL_ADDRESS_QUERY = "UPDATE user SET emailAddress = ? WHERE id = ?";
@@ -29,12 +30,14 @@ public class UserController {
     }
 
 
-    public void create(User user) {
+    public void create() {
         try {
             PreparedStatement pst = connection.prepareStatement(CREATE_QUERY);
             pst.setString(1, user.getFullName());
             pst.setString(2, user.getEmailAddress());
-            pst.setString(3, user.getPassword());
+            String hashedPassword = BCrypt.hashpw(user.getRawPassword(), user.getKeyHash());
+            pst.setString(3, hashedPassword);
+            pst.setString(4, user.getKeyHash());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

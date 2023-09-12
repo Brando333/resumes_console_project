@@ -5,20 +5,39 @@ public class User {
     private int id;
     private String fullName;
     private String emailAddress;
-    private String password;
+    private String rawPassword;
+    private String hashedPassword;
 
-    //this constructor is used for retrieving users
-    public User(int id, String address, String password, String fullName) {
+    private String keyHash;
+
+
+    public User(int id) {
         this.id = id;
-        this.emailAddress = address;
-        this.password = password;
-        this.fullName = fullName;
     }
 
-    public User(String address, String password, String fullName) {
+    //this constructor is used for retrieving users
+    public User(int id, String address, String rawPassword, String fullName, String passwordKey) {
+        this.id = id;
         this.emailAddress = address;
-        this.password = password;
+        this.rawPassword = rawPassword;
         this.fullName = fullName;
+        this.keyHash = passwordKey;
+    }
+
+    public User(String address, String rawPassword, String fullName, String passwordKey) {
+        this.emailAddress = address;
+        this.rawPassword = rawPassword;
+        this.fullName = fullName;
+        this.keyHash = passwordKey;
+    }
+
+
+    public String getKeyHash() {
+        return keyHash;
+    }
+
+    public void setKeyHash(String keyHash) {
+        this.keyHash = keyHash;
     }
 
     public int getId() {
@@ -37,12 +56,12 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public String getPassword() {
-        return password;
+    public String getRawPassword() {
+        return rawPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRawPassword(String rawPassword) {
+        this.rawPassword = rawPassword;
     }
 
     public String getFullName() {
@@ -58,8 +77,16 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", address='" + emailAddress + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + rawPassword + '\'' +
                 ", fullName='" + fullName + '\'' +
                 '}';
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 }
