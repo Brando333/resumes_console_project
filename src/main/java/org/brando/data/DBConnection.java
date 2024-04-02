@@ -16,6 +16,7 @@ public class DBConnection {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
+            System.out.println("No se pudo crear la conexion");
             throw new RuntimeException(e);
         }
     }

@@ -1,0 +1,15 @@
+                 Mi primer resume
+
+    Nombre:     Brando Calderon Puente
+    _____________________________________________________________
+    null
+    =============================================================
+    Dirección:  null
+
+    Contacto:   {}
+
+    Certificaciones:   []
+
+    Habilidades:   []
+
+

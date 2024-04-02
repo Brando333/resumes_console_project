@@ -15,7 +15,9 @@ public class User {
         this.id = id;
     }
 
-    //this constructor is used for retrieving users
+    /**
+     * this constructor is used for retrieving users
+     **/
     public User(int id, String address, String rawPassword, String fullName, String passwordKey) {
         this.id = id;
         this.emailAddress = address;
@@ -24,11 +26,25 @@ public class User {
         this.keyHash = passwordKey;
     }
 
+    /**
+     * this constructor is also used for retrieving users
+     **/
     public User(String address, String rawPassword, String fullName, String passwordKey) {
         this.emailAddress = address;
         this.rawPassword = rawPassword;
         this.fullName = fullName;
         this.keyHash = passwordKey;
+
+    }
+
+
+    /**
+     * this constructor is used for creating new users
+     **/
+    public User(String fullName, String emailAddress, String rawPassword) {
+        this.fullName = fullName;
+        this.emailAddress = emailAddress;
+        this.rawPassword = rawPassword;
     }
 
 

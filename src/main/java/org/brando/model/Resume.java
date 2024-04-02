@@ -1,7 +1,9 @@
 package org.brando.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 
 public class Resume {
 
@@ -13,11 +15,11 @@ public class Resume {
     private List<String> certifications;
     private Map<String, String> socialNetworks;
     private List<String> skills;
-    private int id_user;
+    private int userId;
 
 
     //this constructor is used for retrieving resumes
-    public Resume(int id, String tittle, String fullName, String address, String description, List<String> certifications, Map<String, String> socialNetworks, List<String> skills, int id_user) {
+    public Resume(int id, String tittle, String fullName, String address, String description, List<String> certifications, Map<String, String> socialNetworks, List<String> skills, int userId) {
         this.id = id;
         this.tittle = tittle;
         this.fullName = fullName;
@@ -26,10 +28,10 @@ public class Resume {
         this.certifications = certifications;
         this.socialNetworks = socialNetworks;
         this.skills = skills;
-        this.id_user = id_user;
+        this.userId = userId;
     }
 
-    public Resume(String tittle, String fullName, String address, String description, List<String> certifications, Map<String, String> socialNetworks, List<String> skills, int id_user) {
+    public Resume(String tittle, String fullName, String address, String description, List<String> certifications, Map<String, String> socialNetworks, List<String> skills, int userId) {
         this.tittle = tittle;
         this.fullName = fullName;
         this.address = address;
@@ -37,11 +39,12 @@ public class Resume {
         this.certifications = certifications;
         this.socialNetworks = socialNetworks;
         this.skills = skills;
-        this.id_user = id_user;
+        this.userId = userId;
     }
 
-    public Resume(String tittle) {
+    public Resume(String tittle, int userId) {
         this.tittle = tittle;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -85,10 +88,15 @@ public class Resume {
     }
 
     public List<String> getCertifications() {
+        if (certifications == null) {
+            System.err.println("certifications is null, but now returning an empty arrayList");
+            return new ArrayList<>();
+        }
         return certifications;
-    }
+    }   
 
     public void setCertifications(List<String> certifications) {
+
         this.certifications = certifications;
     }
 
@@ -101,6 +109,7 @@ public class Resume {
     }
 
     public List<String> getSkills() {
+
         return skills;
     }
 
@@ -109,25 +118,16 @@ public class Resume {
     }
 
 
-    public int getId_user() {
-        return id_user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override
     public String toString() {
-        return "Resume{" +
-                "id=" + id +
-                ", tittle='" + tittle + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", certifications=" + certifications +
-                ", socialNetworks=" + socialNetworks +
-                ", skills=" + skills +
-                '}';
+        return STR."Resume{id=\{id}, tittle='\{tittle}\{'\''}, fullName='\{fullName}\{'\''}, address='\{address}\{'\''}, description='\{description}\{'\''}, certifications=\{certifications}, socialNetworks=\{socialNetworks}, skills=\{skills}, userId=\{userId}\{'}'}";
     }
 }

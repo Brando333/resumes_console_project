@@ -1,0 +1,15 @@
+                 My first resume
+
+    Nombre:     Juan Gabriel Hinostroza
+    _____________________________________________________________
+    null
+    =============================================================
+    Dirección:  Psje. Los olivos 143
+
+    Contacto:   {}
+
+    Certificaciones:   []
+
+    Habilidades:   []
+
+

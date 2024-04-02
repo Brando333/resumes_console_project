@@ -11,14 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginController {
-    private Login login;
-    private Connection connection = DBConnection.getConnection();
+    private final Login login;
+    private final Connection connection = DBConnection.getConnection();
+
 
     public LoginController(Login login) {
         this.login = login;
     }
-
-    private final String SELECT_USER_QUERY = "SELECT * FROM user WHERE emailAddress = ?";
 
     /**
      * Returns the user with the id if exists else throw exception
@@ -26,27 +25,29 @@ public class LoginController {
 
     public User login() {
         try {
+            String SELECT_USER_QUERY = "SELECT id, password FROM user WHERE emailAddress = ?";
             PreparedStatement pst = connection.prepareStatement(SELECT_USER_QUERY);
             pst.setString(1, login.getEmailAddress());
             ResultSet rs = pst.executeQuery();
-            boolean existsUser = rs.first();
+            boolean existsUser = rs.next();
+
             if (!existsUser) {
-                System.err.println("El usuario no existe");
-                throw new RuntimeException("User doesnt exist");
+                return null;
             } else {
+                System.err.println("Usuario existe");
                 String rawPassword = login.getPassword();
                 boolean passwordMatch = BCrypt.checkpw(rawPassword, rs.getString("password"));
                 if (passwordMatch) {
-                    return new User(rs.getInt("id"));
+                    UserController userController = new UserController();
+                    int id = rs.getInt("id");
+                    return userController.getUser(id);
                 } else {
                     return null;
                 }
             }
-
-
         } catch (SQLException e) {
-
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("error en el login");
         }
 
     }

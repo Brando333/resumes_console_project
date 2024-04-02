@@ -3,6 +3,8 @@ package org.brando.view;
 import java.util.Scanner;
 
 import static java.lang.System.*;
+import static org.brando.view.LoginView.showLogin;
+import static org.brando.view.SignInView.*;
 
 public class IndexView {
     private static final Scanner scanner = new Scanner(in);
@@ -16,9 +18,9 @@ public class IndexView {
         option = scanner.nextInt();
 
         switch (option) {
-            case 1 -> LoginView.showLogin();
-            case 2 -> SignInView.showSignIn();
-            case 3 -> System.exit(1);
+            case 1 -> showLogin();
+            case 2 -> showSignIn();
+            case 0 -> System.exit(1);
         }
     }
 }
