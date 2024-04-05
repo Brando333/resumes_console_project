@@ -27,9 +27,6 @@ public class Login {
 
     @Override
     public String toString() {
-        return "Login{" +
-                "address='" + emailAddress + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "Login{" + "address='" + emailAddress + '\'' + ", password='" + password + '\'' + '}';
     }
 }

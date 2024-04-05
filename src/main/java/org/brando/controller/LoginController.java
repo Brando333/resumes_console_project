@@ -34,7 +34,6 @@ public class LoginController {
             if (!existsUser) {
                 return null;
             } else {
-                System.err.println("Usuario existe");
                 String rawPassword = login.getPassword();
                 boolean passwordMatch = BCrypt.checkpw(rawPassword, rs.getString("password"));
                 if (passwordMatch) {
