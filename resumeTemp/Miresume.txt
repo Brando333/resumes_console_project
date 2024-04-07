@@ -1,0 +1,15 @@
+                 Mi resume
+
+    Nombre:     Brando Calderon PUente
+    _____________________________________________________________
+    una vaga descripcion
+    =============================================================
+    Dirección:  null
+
+    Contacto:   {}
+
+    Certificaciones:   []
+
+    Habilidades:   []
+
+
