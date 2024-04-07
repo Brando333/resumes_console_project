@@ -9,7 +9,6 @@ import java.util.Scanner;
 import static java.lang.System.in;
 import static java.lang.System.out;
 import static org.brando.view.HomeView.showHome;
-import static org.brando.view.IndexView.*;
 
 public class SignInView {
     private static Scanner scanner = new Scanner(in);
@@ -28,7 +27,10 @@ public class SignInView {
 
         SigIn sigIn = new SigIn(fullName, address, password, reconfirmationPassword);
         SignInController signInController = new SignInController(sigIn);
-        signInController.signIn();
+
+        int userId = signInController.signIn();
+        User user = sigIn.getUser();
+        user.setId(userId);
 
         showHome(sigIn.getUser());
     }

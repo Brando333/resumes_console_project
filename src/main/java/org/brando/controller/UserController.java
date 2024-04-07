@@ -12,14 +12,13 @@ import java.sql.SQLException;
 public class UserController {
 
 
+    private static Connection connection = DBConnection.getConnection();
     private final String CREATE_QUERY = "INSERT INTO user (fullName, emailAddress, password, keyHash) VALUES (?, ?, ?, ?)";
     private final String UPDATE_FULL_NAME_QUERY = "UPDATE user SET fullName = ? WHERE id = ?";
     private final String UPDATE_EMAIL_ADDRESS_QUERY = "UPDATE user SET emailAddress = ? WHERE id = ?";
     private final String UPDATE_PASSWORD_QUERY = "UPDATE user SET password = ? WHERE id = ?";
     private final String DELETE_USER_QUERY = "DELETE  FROM user WHERE  id = ?";
-
     private User user;
-    private static Connection connection = DBConnection.getConnection();
 
     public UserController(User user, Connection connection) {
         this.user = user;
@@ -33,6 +32,47 @@ public class UserController {
     public UserController() {
     }
 
+    /**
+     * Returns an existing user with all the fields
+     */
+    public static User getUser(int id) {
+        try {
+            String SELECT_USER_QUERY = "SELECT * FROM user WHERE  id = ?";
+            PreparedStatement pst = connection.prepareStatement(SELECT_USER_QUERY);
+            pst.setInt(1, id);
+            ResultSet resultSet = pst.executeQuery();
+            resultSet.next();
+
+            String emailAddress = resultSet.getString("emailAddress");
+            String fullName = resultSet.getString("fullName");
+            String password = resultSet.getString("password");
+            String keyHash = resultSet.getString("keyHash");
+
+            return new User(id, emailAddress, password, fullName, keyHash);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns an existing user with all the fields
+     */
+    public static int getUserId(String email) {
+        try {
+            String SELECT_USER_QUERY = "SELECT id FROM user WHERE  emailAddress = ?";
+            PreparedStatement pst = connection.prepareStatement(SELECT_USER_QUERY);
+            pst.setString(1, email);
+            ResultSet resultSet = pst.executeQuery();
+            resultSet.next();
+            return resultSet.getInt("id");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public int create() {
         try {
             PreparedStatement pst = connection.prepareStatement(CREATE_QUERY);
@@ -45,6 +85,7 @@ public class UserController {
             pst.setString(3, hashedPassword);
             pst.setString(4, salt);
             return pst.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -91,29 +132,6 @@ public class UserController {
             PreparedStatement pst = connection.prepareStatement(DELETE_USER_QUERY);
             pst.setInt(1, user.getId());
             pst.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Returns an existing user with all the fields
-     */
-    public static User getUser(int id) {
-        try {
-            String SELECT_USER_QUERY = "SELECT * FROM user WHERE  id = ?";
-            PreparedStatement pst = connection.prepareStatement(SELECT_USER_QUERY);
-            pst.setInt(1, id);
-            ResultSet resultSet = pst.executeQuery();
-            resultSet.next();
-
-            String emailAddress = resultSet.getString("emailAddress");
-            String fullName = resultSet.getString("fullName");
-            String password = resultSet.getString("password");
-            String keyHash = resultSet.getString("keyHash");
-
-            return new User(id, emailAddress, password, fullName, keyHash);
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

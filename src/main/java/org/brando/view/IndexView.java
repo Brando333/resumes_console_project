@@ -2,9 +2,10 @@ package org.brando.view;
 
 import java.util.Scanner;
 
-import static java.lang.System.*;
+import static java.lang.System.in;
+import static java.lang.System.out;
 import static org.brando.view.LoginView.showLogin;
-import static org.brando.view.SignInView.*;
+import static org.brando.view.SignInView.showSignIn;
 
 public class IndexView {
     private static final Scanner scanner = new Scanner(in);
