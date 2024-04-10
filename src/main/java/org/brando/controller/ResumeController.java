@@ -164,13 +164,13 @@ public class ResumeController {
     }
 
 
-    public int updateTittle(String newTittle, int id) {
+    public int updateTittle(String newTittle) {
         try {
 
             String UPDATE_RESUME_TITTLE = "UPDATE resume SET tittle = ? WHERE id = ?";
             PreparedStatement pst = connection.prepareStatement(UPDATE_RESUME_TITTLE);
             pst.setString(1, newTittle);
-            pst.setInt(2, id);
+            pst.setInt(2, resume.getId());
             return pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -182,15 +182,14 @@ public class ResumeController {
      * Updates the full name field of the resume in the data base
      *
      * @param newFullName: the new value of the full name.
-     * @param id:          the id of the target resume
      * @return the numbers of rows updated, the result should be 1 if updated and 0 if not.
      **/
-    public int updateFullName(String newFullName, int id) {
+    public int updateFullName(String newFullName) {
         try {
             String UPDATE_RESUME_FULL_NAME = "UPDATE resume SET fullName = ? WHERE id = ? AND id_user = ?";
             PreparedStatement pst = connection.prepareStatement(UPDATE_RESUME_FULL_NAME);
             pst.setString(1, newFullName);
-            pst.setInt(2, id);
+            pst.setInt(2, resume.getId());
             pst.setInt(3, resume.getUserId());
             return pst.executeUpdate();
         } catch (SQLException e) {
@@ -198,12 +197,12 @@ public class ResumeController {
         }
     }
 
-    public int updateAddress(String newAddress, int id) {
+    public int updateAddress(String newAddress) {
         try {
             String UPDATE_RESUME_ADDRESS = "UPDATE resume SET address = ? WHERE id = ? AND id_user = ?";
             PreparedStatement pst = connection.prepareStatement(UPDATE_RESUME_ADDRESS);
             pst.setString(1, newAddress);
-            pst.setInt(2, id);
+            pst.setInt(2, resume.getId());
             pst.setInt(3, resume.getUserId());
             return pst.executeUpdate();
         } catch (SQLException e) {
@@ -211,12 +210,12 @@ public class ResumeController {
         }
     }
 
-    public int updateDescription(String newDescription, int id) {
+    public int updateDescription(String newDescription) {
         try {
             String UPDATE_RESUME_DESCRIPTION = "UPDATE resume SET description = ? WHERE id = ? AND id_user = ?";
             PreparedStatement pst = connection.prepareStatement(UPDATE_RESUME_DESCRIPTION);
             pst.setString(1, newDescription);
-            pst.setInt(2, id);
+            pst.setInt(2, resume.getId());
             pst.setInt(3, resume.getUserId());
             return pst.executeUpdate();
         } catch (SQLException e) {
