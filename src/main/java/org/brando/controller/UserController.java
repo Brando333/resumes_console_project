@@ -85,7 +85,7 @@ public class UserController {
             return pst.executeUpdate();
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            System.err.println(STR."The email\{user.getEmailAddress()} is already taken, try other email.");
+
             throw new EmailAlreadyTakenException(STR."the email \{user.getEmailAddress()} has already been taken");
         } catch (SQLException e) {
             throw new RuntimeException(e);

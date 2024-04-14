@@ -2,6 +2,7 @@ package org.brando.controller;
 
 import org.brando.data.DBConnection;
 import org.brando.exceptions.EmailAlreadyTakenException;
+import org.brando.exceptions.NotValidEmailException;
 import org.brando.model.SigIn;
 
 import java.sql.Connection;
@@ -21,10 +22,13 @@ public class SignInController {
 
 
     //return the user id of the just created user
-    public int signIn() throws EmailAlreadyTakenException {
+    public int signIn() throws EmailAlreadyTakenException, NotValidEmailException {
         UserController userController = new UserController(sigIn.getUser());
         userController.create();
         String email = sigIn.getUser().getEmailAddress();
+        if (!isValidEmail(email)) {
+            throw new NotValidEmailException("The email " + email + " doesn´t match with a valid email");
+        }
         return UserController.getUserId(email);
     }
 
@@ -48,7 +52,7 @@ public class SignInController {
         throw new RuntimeException("Error in the checkNonExistingUserWithEmail() method");
     }
 
-    private boolean validEmail(String email) {
+    private boolean isValidEmail(String email) {
         return email.matches("^\\w+@[a-zA-Z]+\\..*$");
     }
 }

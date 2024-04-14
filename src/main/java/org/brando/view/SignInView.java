@@ -2,6 +2,7 @@ package org.brando.view;
 
 import org.brando.controller.SignInController;
 import org.brando.exceptions.EmailAlreadyTakenException;
+import org.brando.exceptions.NotValidEmailException;
 import org.brando.model.SigIn;
 import org.brando.model.User;
 
@@ -20,27 +21,42 @@ public class SignInView {
         out.println("Enter your full name");
         String fullName = scanner.nextLine();
         out.println("Enter your email address");
-        String address = scanner.nextLine();
+        String email = scanner.nextLine();
+
+
         out.println("Enter your password");
         String password = scanner.nextLine();
         out.println("Reconfirm your password");
         String reconfirmationPassword = scanner.nextLine();
 
-        SigIn sigIn = new SigIn(fullName, address, password, reconfirmationPassword);
-        SignInController signInController = new SignInController(sigIn);
-
-        int userId = 0;
-        try {
-            userId = signInController.signIn();
-        } catch (EmailAlreadyTakenException e) {
-            out.println("Try with other email.");
-            out.println(Utils.getNewLines(2));
-
+        if (!password.equals(reconfirmationPassword)) {
+            System.out.println("passwords doesn't match, try again");
             showSignIn();
-        }
-        User user = sigIn.getUser();
-        user.setId(userId);
+        } else {
+            SigIn sigIn = new SigIn(fullName, email, password, reconfirmationPassword);
+            SignInController signInController = new SignInController(sigIn);
 
-        showHome(sigIn.getUser());
+            int userId = 0;
+            try {
+                userId = signInController.signIn();
+            } catch (EmailAlreadyTakenException e) {
+                System.out.println(STR."\nThe email \"\{email}\" is already taken, try other email.");
+                out.println(Utils.getNewLines(2));
+
+                showSignIn();
+            } catch (NotValidEmailException e) {
+
+                System.out.println(STR."\nThe email \"\{email}\" doesn't match with a valid email, try other email e.g. [user@domain.com].");
+                out.println(Utils.getNewLines(2));
+
+                showSignIn();
+            }
+            User user = sigIn.getUser();
+            user.setId(userId);
+
+            showHome(sigIn.getUser());
+        }
+
+
     }
 }

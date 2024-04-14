@@ -15,15 +15,15 @@ class ResumeControllerTest {
     public void update() {
         ResumeController rc = new ResumeController(new Resume("", 2));
         String name = "name updated";
-        int updatedRows = rc.updateFullName(name, 4); //4 is the value of an existing test resume in the data base.
+        int updatedRows = rc.updateFullName(name); //4 is the value of an existing test resume in the data base.
         assertEquals(1, updatedRows);
 
         String address = "address updated";
-        updatedRows = rc.updateAddress(address, 4); //4 is the value of an existing test resume in the database.
+        updatedRows = rc.updateAddress(address); //4 is the value of an existing test resume in the database.
         assertEquals(1, updatedRows);
 
         String description = "description updated";
-        updatedRows = rc.updateDescription(description, 4); //4 is the value of an existing test resume in the database.
+        updatedRows = rc.updateDescription(description); //4 is the value of an existing test resume in the database.
         assertEquals(1, updatedRows);
 
         String certifications = "certifications updated";
