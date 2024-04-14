@@ -1,13 +1,11 @@
 package org.brando.controller;
 
 import org.brando.data.DBConnection;
+import org.brando.exceptions.EmailAlreadyTakenException;
 import org.brando.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserController {
 
@@ -73,7 +71,7 @@ public class UserController {
     }
 
 
-    public int create() {
+    public int create() throws EmailAlreadyTakenException {
         try {
             PreparedStatement pst = connection.prepareStatement(CREATE_QUERY);
             pst.setString(1, user.getFullName());
@@ -86,6 +84,9 @@ public class UserController {
             pst.setString(4, salt);
             return pst.executeUpdate();
 
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.err.println(STR."The email\{user.getEmailAddress()} is already taken, try other email.");
+            throw new EmailAlreadyTakenException(STR."the email \{user.getEmailAddress()} has already been taken");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

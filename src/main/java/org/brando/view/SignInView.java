@@ -1,6 +1,7 @@
 package org.brando.view;
 
 import org.brando.controller.SignInController;
+import org.brando.exceptions.EmailAlreadyTakenException;
 import org.brando.model.SigIn;
 import org.brando.model.User;
 
@@ -28,7 +29,15 @@ public class SignInView {
         SigIn sigIn = new SigIn(fullName, address, password, reconfirmationPassword);
         SignInController signInController = new SignInController(sigIn);
 
-        int userId = signInController.signIn();
+        int userId = 0;
+        try {
+            userId = signInController.signIn();
+        } catch (EmailAlreadyTakenException e) {
+            out.println("Try with other email.");
+            out.println(Utils.getNewLines(2));
+
+            showSignIn();
+        }
         User user = sigIn.getUser();
         user.setId(userId);
 

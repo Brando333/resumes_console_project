@@ -1,6 +1,7 @@
 package org.brando.controller;
 
 import org.brando.data.DBConnection;
+import org.brando.exceptions.EmailAlreadyTakenException;
 import org.brando.model.SigIn;
 
 import java.sql.Connection;
@@ -20,7 +21,7 @@ public class SignInController {
 
 
     //return the user id of the just created user
-    public int signIn() {
+    public int signIn() throws EmailAlreadyTakenException {
         UserController userController = new UserController(sigIn.getUser());
         userController.create();
         String email = sigIn.getUser().getEmailAddress();
