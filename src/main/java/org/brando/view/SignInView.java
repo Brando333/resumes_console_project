@@ -2,7 +2,6 @@ package org.brando.view;
 
 import org.brando.controller.SignInController;
 import org.brando.exceptions.EmailAlreadyTakenException;
-import org.brando.exceptions.NotValidEmailException;
 import org.brando.model.SigIn;
 import org.brando.model.User;
 
@@ -22,41 +21,60 @@ public class SignInView {
         String fullName = scanner.nextLine();
         out.println("Enter your email address");
         String email = scanner.nextLine();
-
-
         out.println("Enter your password");
         String password = scanner.nextLine();
         out.println("Reconfirm your password");
         String reconfirmationPassword = scanner.nextLine();
 
-        if (!password.equals(reconfirmationPassword)) {
-            System.out.println("passwords doesn't match, try again");
-            showSignIn();
-        } else {
+        validateInputs(new SigIn(fullName, email, password, reconfirmationPassword));
+
+        try {
             SigIn sigIn = new SigIn(fullName, email, password, reconfirmationPassword);
             SignInController signInController = new SignInController(sigIn);
-
-            int userId = 0;
-            try {
-                userId = signInController.signIn();
-            } catch (EmailAlreadyTakenException e) {
-                System.out.println(STR."\nThe email \"\{email}\" is already taken, try other email.");
-                out.println(Utils.getNewLines(2));
-
-                showSignIn();
-            } catch (NotValidEmailException e) {
-
-                System.out.println(STR."\nThe email \"\{email}\" doesn't match with a valid email, try other email e.g. [user@domain.com].");
-                out.println(Utils.getNewLines(2));
-
-                showSignIn();
-            }
+            int userId = signInController.signIn();
             User user = sigIn.getUser();
             user.setId(userId);
-
             showHome(sigIn.getUser());
+        } catch (EmailAlreadyTakenException e) {
+            System.out.println(STR."\nThe email \"\{email}\" is already taken, try other email.");
+            out.println(Utils.getNewLines(2));
+
+            showSignIn();
         }
 
+    }
 
+    private static void validateInputs(SigIn sigIn) {
+
+        String fullName = sigIn.getFullName();
+        String email = sigIn.getEmailAddress();
+        String password = sigIn.getRawPassword();
+        String passwordReconfirmation = sigIn.getRawPasswordReconfirmation();
+
+        if (!isNameValid(fullName)) {
+            out.println("Invalid name");
+            out.println(Utils.getNewLines(2));
+            showSignIn();
+        } else if (!isEmailValid(email)) {
+            out.println("Invalid email");
+            out.println(Utils.getNewLines(2));
+            showSignIn();
+        } else if (!isReconfirmationPasswordMatching(password, passwordReconfirmation)) {
+            out.println("Reconfirmation password doesn't match");
+            out.println(Utils.getNewLines(2));
+            showSignIn();
+        }
+    }
+
+    private static boolean isReconfirmationPasswordMatching(String password, String passwordReconfirmation) {
+        return password.equals(passwordReconfirmation);
+    }
+
+    private static boolean isEmailValid(String email) {
+        return email.matches("^\\w+@[a-zA-Z]+\\..*$");
+    }
+
+    private static boolean isNameValid(String fullName) {
+        return fullName.matches("[a-zA-Z ]+");
     }
 }

@@ -22,13 +22,10 @@ public class SignInController {
 
 
     //return the user id of the just created user
-    public int signIn() throws EmailAlreadyTakenException, NotValidEmailException {
+    public int signIn() throws EmailAlreadyTakenException {
         UserController userController = new UserController(sigIn.getUser());
         userController.create();
         String email = sigIn.getUser().getEmailAddress();
-        if (!isValidEmail(email)) {
-            throw new NotValidEmailException("The email " + email + " doesn´t match with a valid email");
-        }
         return UserController.getUserId(email);
     }
 
@@ -52,7 +49,5 @@ public class SignInController {
         throw new RuntimeException("Error in the checkNonExistingUserWithEmail() method");
     }
 
-    private boolean isValidEmail(String email) {
-        return email.matches("^\\w+@[a-zA-Z]+\\..*$");
-    }
+
 }

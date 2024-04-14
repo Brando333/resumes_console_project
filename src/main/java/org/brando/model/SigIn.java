@@ -16,7 +16,7 @@ public class SigIn extends User {
         return user;
     }
 
-    public String getPasswordReconfirmation() {
+    public String getRawPasswordReconfirmation() {
         return passwordReconfirmation;
     }
 
